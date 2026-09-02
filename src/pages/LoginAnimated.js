@@ -6,7 +6,7 @@ import { COMPANY_DISPLAY } from "../config";
 import './LoginAnimated.css';
 
 /**
- * Haoda Asset — Login (animated, video-style)
+ * Vettri Assets — Login (animated, video-style)
  *
  * Wired to the real AuthContext (same login()/verifyAdminOtp() used by the
  * full pages/Login.js). Supports Admin + Employee, including admin email

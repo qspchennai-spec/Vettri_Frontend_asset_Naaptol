@@ -111,7 +111,7 @@ function activityIcon(type) {
   return { bg: "#f0fdf4", el: <span style={{ fontSize: 14 }}>↩</span> };
 }
 
-/* ── Recent Notifications widget (Haoda Pulse / Enterprise Notification Center) ── */
+/* ── Recent Notifications widget / Enterprise Notification Center ─────────────── */
 const RN_CATEGORY_ICON = { Task: ClipboardList, Asset: Laptop, Billing: Receipt, Security: ShieldAlert, System: Info };
 const RN_PRIORITY_COLOR = { Critical: "#dc2626", High: "#ea580c", Normal: "#2563eb", Low: "#16a34a" };
 
@@ -604,7 +604,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Recent Notifications (Haoda Pulse) */}
+      {/* Recent Notifications */}
       <RecentNotificationsWidget />
 
       {/* Bottom row */}

@@ -10,7 +10,7 @@ import {
 import MarkdownLite from "./ai/MarkdownLite";
 import ConfirmActionCard from "./ai/ConfirmActionCard";
 import "./AiChatWidget.css";
-import { COMPANY_DISPLAY } from "../config";
+const ASSISTANT_NAME = "Vettri";
 
 const ADMIN_STARTERS = [
   "Which employee has the most assets?",
@@ -234,7 +234,7 @@ export default function AiChatWidget() {
         className={`ai-chat-fab ${open ? "ai-chat-fab-open" : ""}`}
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? "Close AI Assistant" : "Open AI Assistant"}
-        title={`Ask ${COMPANY_DISPLAY} AI`}
+        title={`Ask ${ASSISTANT_NAME} AI`}
       >
         {open ? <X size={20} /> : <Sparkles size={20} />}
       </button>
@@ -244,7 +244,7 @@ export default function AiChatWidget() {
           <div className="ai-chat-header">
             <div className="ai-chat-header-icon"><Sparkles size={16} /></div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div className="ai-chat-header-title">{COMPANY_DISPLAY} AI Assistant</div>
+              <div className="ai-chat-header-title">{ASSISTANT_NAME} AI Assistant</div>
               <div className="ai-chat-header-sub">Ask, search, and act on assets, employees &amp; maintenance</div>
             </div>
             <button className="ai-chat-icon-btn" title="New chat" onClick={startNewChat}><Plus size={16} /></button>

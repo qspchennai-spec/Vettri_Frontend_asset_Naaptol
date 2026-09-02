@@ -1,10 +1,7 @@
 /* ════════════════════════════════════════════════════════════════════
-   HaodaAsset — Enterprise Login Experience
-   Brand: Haoda Group (deep indigo/purple + gold). Logo usage on this page:
-     • Haoda Pay logo (wordmark)  → primary brand, top of the sign-in card
-     • Wallet mark (icon only)    → favicon, illustration, mobile header,
-                                     small brand touches, loading spinner
-     • Haoda Group logo (wordmark)→ footer attribution only
+   Vettri Assets — Enterprise Login Experience
+   The full Vettri Assets logo belongs on the left hero panel. The client
+   name is intentionally kept on the sign-in card for the Naaptol deployment.
    Every .login-* selector here is scoped to this page (see Login.js) and
    safely supersedes any older rules of the same name.
 ════════════════════════════════════════════════════════════════════ */
@@ -72,6 +69,15 @@
 }
 
 .login-left-top { position: relative; z-index: 1; max-width: 560px; }
+
+.login-hero-logo {
+  display: block;
+  width: min(250px, 72%);
+  height: auto;
+  margin-bottom: 24px;
+  object-fit: contain;
+  object-position: left center;
+}
 
 .login-hero-tag {
   display: inline-flex; align-items: center; gap: 8px;
@@ -215,9 +221,9 @@
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* Primary branding — Haoda Pay wordmark logo */
+/* Client branding — the sign-in card belongs to Naaptol. */
 .login-box-brand { display: flex; justify-content: center; margin-bottom: 22px; }
-.login-primary-logo { height: 34px; width: auto; object-fit: contain; }
+.login-client-name { font-size: 27px; font-weight: 800; color: var(--brand-purple); letter-spacing: -0.6px; }
 
 /* Mobile-only compact brand row — wallet mark, never the full wordmark */
 .login-box-brand-mobile { display: none; align-items: center; gap: 10px; margin-bottom: 18px; }
@@ -394,7 +400,7 @@
   display: flex; align-items: center; justify-content: center; gap: 6px;
 }
 
-/* ── Footer — full width, Haoda Group attribution only ────────────────── */
+/* ── Footer ───────────────────────────────────────────────────────────── */
 
 .login-footer {
   grid-column: 1 / -1;

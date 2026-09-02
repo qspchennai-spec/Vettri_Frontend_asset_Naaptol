@@ -6,7 +6,7 @@ import {
   UserCog, Lock, Check, Smartphone, KeyRound,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
-import { GOOGLE_CLIENT_ID, COMPANY_NAME, COMPANY_DISPLAY, PAY_LOGO_PATH, WALLET_ICON_PATH, GROUP_LOGO_PATH } from "../config";
+import { GOOGLE_CLIENT_ID, COMPANY_NAME, PAY_LOGO_PATH, WALLET_ICON_PATH } from "../config";
 import ForgotPasswordModal from "../components/ForgotPasswordModal";
 import "../components/ForgotPasswordModal.css";
 import "./Login.css";
@@ -27,7 +27,7 @@ const FEATURES = [
 // Brand asset paths are driven by build-time configuration.
 const WALLET_ICON = WALLET_ICON_PATH;
 const BRAND_LOGO = PAY_LOGO_PATH;
-const GROUP_LOGO = GROUP_LOGO_PATH;
+const CLIENT_NAME = "Naaptol";
 
 function WalletSpinner({ size = 18 }) {
   return (
@@ -364,13 +364,14 @@ export default function Login() {
         <div className="login-left-orb login-left-orb-b" />
 
         <div className="login-left-top">
-            <div className="login-hero-tag">
+          <img src={BRAND_LOGO} alt="Vettri Assets" className="login-hero-logo" />
+          <div className="login-hero-tag">
             <span className="login-hero-tag-dot" />
-            {`Trusted by IT teams across ${COMPANY_NAME}`}
+            Vettri IT Asset Management
           </div>
 
           <h1 className="login-hero-title">
-            IT Asset Management,
+            Vettri IT Asset Management,
             <br />
             <span>built for the modern</span>
             <br />
@@ -393,8 +394,7 @@ export default function Login() {
           </ul>
         </div>
 
-        {/* Illustration — built around the Haoda Pay wallet mark, never the
-            full text logo, per brand rules for this surface. */}
+        {/* Illustration uses the compact brand mark without duplicating the wordmark. */}
         <div className="login-illustration" aria-hidden="true">
           <div className="login-illustration-glow" />
           <div className="login-illustration-card login-illustration-card--main">
@@ -432,17 +432,13 @@ export default function Login() {
       {/* ── Right panel — sign in card (40%) ────────────────────────────── */}
       <div className="login-right">
         <div className="login-box fade-in">
-          {/* Primary branding: Haoda Pay logo (with text) */}
           <div className="login-box-brand">
-            <img src={BRAND_LOGO} alt={COMPANY_DISPLAY} className="login-primary-logo" />
+            <span className="login-client-name">{CLIENT_NAME}</span>
           </div>
 
-          {/* Mobile-only compact brand row — wallet mark, not the full logo */}
+          {/* Mobile-only client brand row */}
           <div className="login-box-brand-mobile">
-            <div className="login-brand-icon login-brand-icon--sm">
-              <img src={WALLET_ICON} alt={COMPANY_DISPLAY} />
-            </div>
-            <span>{COMPANY_DISPLAY}</span>
+            <span>{CLIENT_NAME}</span>
           </div>
 
           <div className="login-box-header">
@@ -450,7 +446,7 @@ export default function Login() {
               <div className="login-box-sub">
               {stage === "2fa"
                 ? `Enter the 6-digit code sent to ${maskedEmail}`
-                : `Sign in to your ${COMPANY_DISPLAY} account`}
+                : `Sign in to your ${CLIENT_NAME} Asset account`}
             </div>
           </div>
 
@@ -754,11 +750,9 @@ export default function Login() {
         </div>
       </div>
 
-      {/* ── Footer — full width, Haoda Group attribution only ───────────── */}
-          <footer className="login-footer">
+      <footer className="login-footer">
         <div className="login-footer-brand">
-          <span>Powered by</span>
-          <img src={GROUP_LOGO} alt={COMPANY_NAME} className="login-footer-logo" />
+          <span>Powered by Vettri Asset Management</span>
         </div>
         <div className="login-footer-meta">
           <span>Version 2.0.0</span>

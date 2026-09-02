@@ -1,7 +1,6 @@
 // Centralized environment configuration.
 //
-// API_BASE previously lived as a hardcoded literal
-// ("https://haodaasset-backend-1.onrender.com") copy-pasted into 29+ files
+// API_BASE previously lived as a hardcoded literal copied into 29+ files
 // across the app — meaning every environment (local dev, staging, a future
 // white-label deployment) required manually editing every one of those
 // files. This is now the single source of truth: set REACT_APP_API_URL in

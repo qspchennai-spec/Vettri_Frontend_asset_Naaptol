@@ -31,7 +31,7 @@ export function NotificationProvider({ children }) {
   const [systemNotifications, setSystemNotifications] = useState([]); // legacy warranty/maintenance alerts
   const [systemUnread, setSystemUnread]   = useState(0);
 
-  // ── Enterprise Notification Center (Haoda Pulse) ────────────────────────
+  // ── Enterprise notification center ──────────────────────────────────────
   const [pulseNotifications, setPulseNotifications] = useState([]);
   const [pulseUnread, setPulseUnread] = useState(0);
   const [pulseConnected, setPulseConnected] = useState(false);
