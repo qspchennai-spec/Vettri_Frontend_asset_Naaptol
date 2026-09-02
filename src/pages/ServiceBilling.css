@@ -1,0 +1,30 @@
+/* Most Service Billing styling reuses the shared design system in
+   index.css (cards, buttons, inputs, tables, badges). This file only
+   holds responsive tweaks specific to this page's KPI row and form grid,
+   following the same pattern as Assets.css / NetworkCredentials.css. */
+
+@media (max-width: 1100px) {
+  .service-billing-kpi-row {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .service-billing-kpi-row {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .form-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .service-billing-kpi-row {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card { animation: none !important; }
+}

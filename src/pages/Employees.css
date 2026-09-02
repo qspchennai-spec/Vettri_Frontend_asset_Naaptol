@@ -1,0 +1,391 @@
+/* ════════════════════════════════════════════════════════════════════
+   EMPLOYEES PAGE — premium enterprise redesign
+   Scoped entirely under .emp-page so nothing here leaks to other pages.
+════════════════════════════════════════════════════════════════════ */
+
+.emp-page { display: flex; flex-direction: column; gap: 20px; }
+
+/* ── Lifecycle Status Tabs ────────────────────────────────────────── */
+.emp-status-tabs {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  background: #fff; border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg); padding: 6px;
+  box-shadow: var(--shadow-xs);
+}
+.emp-status-tab {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 8px 14px; border-radius: 9px;
+  font-size: 13px; font-weight: 600; color: var(--gray-500);
+  background: transparent; border: none; cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.emp-status-tab:hover { background: var(--gray-100); color: var(--gray-700); }
+.emp-status-tab.is-active { background: var(--primary); color: #fff; }
+.emp-status-tab-count {
+  font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 999px;
+  background: var(--gray-100); color: var(--gray-600);
+}
+.emp-status-tab.is-active .emp-status-tab-count { background: rgba(255,255,255,0.25); color: #fff; }
+
+/* ── Dedicated Resigned Employees table ──────────────────────────── */
+.emp-resigned-table-wrap {
+  background: #fff; border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg); overflow-x: auto; box-shadow: var(--shadow-xs);
+}
+.emp-resigned-table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 980px; }
+.emp-resigned-table th {
+  text-align: left; padding: 12px 14px; font-size: 11.5px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.04em; color: var(--gray-500);
+  background: var(--gray-50); border-bottom: 1px solid var(--gray-200); white-space: nowrap;
+}
+.emp-resigned-table td {
+  padding: 12px 14px; border-bottom: 1px solid var(--gray-100); color: var(--gray-700); vertical-align: middle;
+}
+.emp-resigned-table tr:last-child td { border-bottom: none; }
+.emp-resigned-table tr:hover td { background: var(--gray-50); }
+.emp-resigned-table .emp-rt-name { font-weight: 700; color: var(--gray-800); }
+.emp-resigned-table .emp-rt-id { font-size: 11.5px; color: var(--gray-400); font-family: var(--font-mono, monospace); }
+.emp-resigned-table .emp-rt-actions { display: flex; gap: 6px; white-space: nowrap; }
+
+/* ── Premium "Add Employee" CTA ──────────────────────────────────── */
+.emp-add-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  height: 38px; padding: 0 18px 0 16px;
+  font-size: 13.5px; font-weight: 700;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(37,99,235,0.15), 0 6px 16px -4px rgba(37,99,235,0.35);
+  transition: transform 0.15s cubic-bezier(0.16,1,0.3,1), box-shadow 0.15s cubic-bezier(0.16,1,0.3,1), background-color 0.15s ease;
+}
+.emp-add-btn:hover {
+  transform: translateY(-1.5px);
+  box-shadow: 0 2px 4px rgba(37,99,235,0.18), 0 10px 24px -4px rgba(37,99,235,0.45);
+}
+.emp-add-btn:active { transform: translateY(0); }
+.emp-add-btn:focus-visible { outline: 2px solid var(--primary-dark); outline-offset: 2px; }
+.emp-add-btn .emp-add-icon {
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+}
+.emp-add-btn:hover .emp-add-icon { transform: rotate(90deg); }
+.emp-add-btn.is-cancel { box-shadow: var(--shadow-xs); }
+.emp-add-btn.is-cancel:hover { transform: none; box-shadow: var(--shadow-sm); }
+
+/* ── Toolbar: stats + search + filters ───────────────────────────── */
+.emp-toolbar {
+  display: flex; flex-direction: column; gap: 14px;
+  background: #fff; border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg); padding: 16px 18px;
+  box-shadow: var(--shadow-xs);
+}
+
+.emp-toolbar-top {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+}
+
+.emp-stats {
+  display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap;
+}
+.emp-stats-count {
+  font-family: var(--font);
+  font-size: 22px; font-weight: 800; color: var(--gray-900); letter-spacing: -0.4px;
+  font-variant-numeric: tabular-nums;
+}
+.emp-stats-label { font-size: 13px; font-weight: 600; color: var(--gray-500); }
+.emp-stats-sep { color: var(--gray-300); font-size: 13px; margin: 0 2px; }
+.emp-stats-breakdown { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.emp-stats-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 700; color: var(--gray-600);
+}
+.emp-stats-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── Search box ───────────────────────────────────────────────────── */
+.emp-search-wrap { position: relative; flex: 1 1 260px; max-width: 360px; min-width: 200px; }
+.emp-search-icon {
+  position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+  color: var(--gray-400); pointer-events: none; display: flex;
+  transition: color 0.15s ease;
+}
+.emp-search-input {
+  width: 100%; height: 38px;
+  padding: 0 34px 0 36px;
+  border: 1.5px solid var(--gray-200); border-radius: 10px;
+  background: var(--gray-50);
+  font-family: var(--font); font-size: 13.5px; color: var(--gray-800);
+  transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+  outline: none;
+}
+.emp-search-input::placeholder { color: var(--gray-400); }
+.emp-search-input:hover { border-color: var(--gray-300); }
+.emp-search-input:focus {
+  border-color: var(--primary); background: #fff;
+  box-shadow: 0 0 0 3.5px var(--primary-50);
+}
+.emp-search-wrap:focus-within .emp-search-icon { color: var(--primary); }
+.emp-search-clear {
+  position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+  width: 22px; height: 22px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--gray-200); color: var(--gray-600); border: none; cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+.emp-search-clear:hover { background: var(--gray-300); color: var(--gray-800); }
+.emp-search-clear:active { transform: translateY(-50%) scale(0.92); }
+
+/* ── Filter row ───────────────────────────────────────────────────── */
+.emp-filters-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+.emp-filter-select-wrap { position: relative; }
+.emp-filter-select {
+  appearance: none; -webkit-appearance: none;
+  height: 34px; padding: 0 30px 0 12px;
+  border: 1.5px solid var(--gray-200); border-radius: 8px;
+  background: #fff; color: var(--gray-700);
+  font-family: var(--font); font-size: 12.5px; font-weight: 600;
+  cursor: pointer; outline: none; max-width: 168px;
+  text-overflow: ellipsis;
+  transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+}
+.emp-filter-select:hover { border-color: var(--gray-300); background: var(--gray-50); }
+.emp-filter-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3.5px var(--primary-50); }
+.emp-filter-select.is-active { border-color: var(--primary-200); background: var(--primary-50); color: var(--primary-dark); }
+.emp-filter-select-wrap::after {
+  content: "";
+  position: absolute; right: 11px; top: 50%; width: 7px; height: 7px;
+  border-right: 1.5px solid var(--gray-400); border-bottom: 1.5px solid var(--gray-400);
+  transform: translateY(-65%) rotate(45deg); pointer-events: none;
+  transition: border-color 0.15s ease;
+}
+.emp-filter-select-wrap:has(.is-active)::after { border-color: var(--primary); }
+
+.emp-filters-divider { width: 1px; height: 22px; background: var(--gray-200); margin: 0 2px; flex-shrink: 0; }
+
+/* ── Active filter chips ──────────────────────────────────────────── */
+.emp-active-filters { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.emp-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 28px; padding: 0 6px 0 12px;
+  background: var(--primary-50); border: 1px solid var(--primary-100);
+  border-radius: 999px; color: var(--primary-dark);
+  font-size: 12px; font-weight: 700;
+  animation: emp-chip-in 0.16s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes emp-chip-in {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.emp-chip-remove {
+  display: flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; border-radius: 50%; border: none;
+  background: rgba(37,99,235,0.12); color: var(--primary-dark); cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+.emp-chip-remove:hover { background: rgba(37,99,235,0.22); }
+.emp-chip-remove:active { transform: scale(0.9); }
+.emp-clear-all-btn {
+  background: none; border: none; cursor: pointer;
+  font-size: 12px; font-weight: 700; color: var(--gray-500);
+  padding: 4px 6px; border-radius: 6px;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+.emp-clear-all-btn:hover { color: var(--danger); background: var(--danger-bg); }
+
+/* ── Card grid ────────────────────────────────────────────────────── */
+.emp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 14px;
+}
+
+/* ── Employee card ────────────────────────────────────────────────── */
+.employee-card {
+  position: relative;
+  display: flex; flex-direction: column;
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: 18px 18px 14px;
+  box-shadow: var(--shadow-xs);
+  transition: transform 0.18s cubic-bezier(0.16,1,0.3,1),
+              box-shadow 0.18s cubic-bezier(0.16,1,0.3,1),
+              border-color 0.18s cubic-bezier(0.16,1,0.3,1);
+  animation: emp-card-in 0.28s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes emp-card-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.employee-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary-200);
+  box-shadow: 0 14px 32px -10px rgba(15,23,42,0.16), 0 0 0 1px var(--primary-100);
+}
+
+.employee-card-top { display: flex; align-items: flex-start; gap: 12px; }
+
+/* Avatar */
+.emp-avatar {
+  width: 48px; height: 48px; border-radius: 13px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font); font-size: 16px; font-weight: 800; color: #fff;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  box-shadow: 0 3px 8px -2px rgba(15,23,42,0.25), inset 0 1px 0 rgba(255,255,255,0.2);
+  transition: transform 0.16s cubic-bezier(0.34,1.56,0.64,1);
+}
+.employee-card:hover .emp-avatar { transform: scale(1.05); }
+
+.employee-card-heading { flex: 1; min-width: 0; cursor: pointer; }
+.emp-name-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.emp-name {
+  font-size: 15.5px; font-weight: 800; color: var(--gray-900);
+  letter-spacing: -0.2px; line-height: 1.25;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%;
+}
+.employee-card:hover .emp-name { color: var(--primary-dark); }
+.emp-id-line {
+  font-size: 12px; color: var(--gray-400); margin-top: 2px;
+  font-family: var(--font-data);
+  display: flex; align-items: center; gap: 5px; flex-wrap: wrap;
+}
+.emp-id-code {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  background: var(--gray-100); color: var(--gray-600);
+  padding: 1px 6px; border-radius: 5px;
+}
+
+/* Role badge (top-right of card) */
+.emp-role-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 9px; border-radius: 999px; flex-shrink: 0;
+  font-size: 10.5px; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase;
+  border: 1px solid transparent; white-space: nowrap;
+}
+.emp-role-badge.is-admin    { background: var(--badge-admin-bg);    color: var(--badge-admin-fg);    border-color: var(--badge-admin-bd); }
+.emp-role-badge.is-employee { background: var(--badge-employee-bg); color: var(--badge-employee-fg); border-color: var(--badge-employee-bd); }
+
+/* Meta info grid */
+.emp-meta-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px 14px;
+  margin-top: 14px; padding-top: 14px;
+  border-top: 1px solid var(--gray-100);
+}
+.emp-meta-item { min-width: 0; }
+.emp-meta-item.span-2 { grid-column: 1 / -1; }
+.emp-meta-label {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--gray-400); margin-bottom: 3px;
+}
+.emp-meta-label svg { flex-shrink: 0; opacity: 0.85; }
+.emp-meta-value {
+  font-size: 12.5px; font-weight: 600; color: var(--gray-700);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.emp-meta-value.is-muted { color: var(--gray-400); font-weight: 500; }
+.emp-meta-value.is-link { color: var(--primary-dark); }
+.emp-asset-count-value {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12.5px; font-weight: 700; color: var(--gray-700);
+}
+.emp-asset-count-value .count-num { font-weight: 800; color: var(--gray-900); }
+
+/* Status row (account + password status pills) */
+.emp-status-row {
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  margin-top: 12px;
+}
+.emp-status-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 9px 3px 8px; border-radius: 999px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.01em;
+  border: 1px solid transparent; white-space: nowrap;
+}
+.emp-status-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.emp-status-pill.is-active   { background: var(--badge-success-bg); color: var(--badge-success-fg); border-color: var(--badge-success-bd); }
+.emp-status-pill.is-active .emp-status-dot { background: var(--badge-success-fg); }
+.emp-status-pill.is-warning  { background: var(--badge-warning-bg); color: var(--badge-warning-fg); border-color: var(--badge-warning-bd); }
+.emp-status-pill.is-warning .emp-status-dot { background: var(--badge-warning-fg); }
+.emp-status-pill.is-neutral  { background: var(--gray-100); color: var(--gray-500); border-color: var(--gray-200); }
+.emp-status-pill.is-neutral .emp-status-dot { background: var(--gray-400); }
+
+.emp-last-activity {
+  font-size: 11.5px; color: var(--gray-400); margin-top: 8px;
+  display: flex; align-items: center; gap: 5px;
+}
+.emp-last-activity svg { flex-shrink: 0; opacity: 0.7; }
+
+/* Actions footer */
+.employee-card-actions {
+  display: flex; align-items: center; gap: 8px;
+  margin-top: 14px; padding-top: 14px;
+  border-top: 1px solid var(--gray-100);
+}
+.emp-btn-view {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 32px; padding: 0 12px;
+  border-radius: 8px; border: 1.5px solid var(--gray-200);
+  background: #fff; color: var(--gray-700);
+  font-size: 12.5px; font-weight: 700;
+  cursor: pointer; transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+.emp-btn-view:hover { background: var(--gray-50); border-color: var(--gray-300); }
+.emp-btn-view:active { transform: scale(0.97); }
+
+.emp-btn-assign {
+  flex: 1 1 auto;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  height: 32px; padding: 0 12px;
+  border-radius: 8px; border: 1.5px solid transparent;
+  background: var(--primary); color: #fff;
+  font-size: 12.5px; font-weight: 700;
+  cursor: pointer; box-shadow: 0 2px 6px -1px rgba(37,99,235,0.35);
+  transition: background-color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+}
+.emp-btn-assign:hover { background: var(--primary-dark); box-shadow: 0 4px 10px -1px rgba(37,99,235,0.45); transform: translateY(-1px); }
+.emp-btn-assign:active { transform: translateY(0); }
+.emp-btn-assign:focus-visible, .emp-btn-view:focus-visible { outline: 2px solid var(--primary); outline-offset: 1px; }
+
+/* ── Empty state ──────────────────────────────────────────────────── */
+.emp-empty-state {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; gap: 6px;
+  padding: 64px 24px;
+  background: #fff; border: 1px dashed var(--gray-200); border-radius: var(--radius-lg);
+}
+.emp-empty-illustration { margin-bottom: 10px; animation: emp-empty-float 3s ease-in-out infinite; }
+@keyframes emp-empty-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+.emp-empty-title { font-size: 15px; font-weight: 800; color: var(--gray-700); }
+.emp-empty-sub { font-size: 13px; color: var(--gray-400); max-width: 340px; line-height: 1.5; }
+.emp-empty-cta { margin-top: 14px; }
+
+/* ── Skeleton loading cards ───────────────────────────────────────── */
+.emp-skel-card {
+  background: #fff; border: 1px solid var(--gray-200); border-radius: var(--radius-lg);
+  padding: 18px;
+}
+.emp-skel-top { display: flex; align-items: center; gap: 12px; }
+.emp-skel-avatar { width: 48px; height: 48px; border-radius: 13px; flex-shrink: 0; }
+.emp-skel-lines { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.emp-skel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--gray-100); }
+
+/* ── Responsive ───────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .emp-grid { grid-template-columns: 1fr; }
+  .emp-toolbar-top { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 640px) {
+  .emp-search-wrap { max-width: none; flex-basis: 100%; }
+  .emp-filters-row { width: 100%; }
+  .emp-filter-select { max-width: none; flex: 1 1 130px; }
+  .employee-card-actions { flex-wrap: wrap; }
+  .emp-btn-view, .emp-btn-assign { flex: 1 1 auto; height: 36px; }
+  .emp-meta-grid { grid-template-columns: 1fr; }
+}

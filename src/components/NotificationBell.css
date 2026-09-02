@@ -1,0 +1,409 @@
+/* ════════════════════════════════════════════════════════════════════
+   ENTERPRISE NOTIFICATION CENTER — Haoda Pulse design language
+   A real slide-in drawer (Slack / Teams / Linear / GitHub / Jira
+   pattern): light overlay, no heavy blur, app stays visible, sticky
+   header + toolbar, dense scannable rows.
+════════════════════════════════════════════════════════════════════ */
+.hz-notif-root {
+  /* Surfaces */
+  --hz-bg:             #ffffff;
+  --hz-bg-soft:        #f7f8fb;
+  --hz-bg-subtle:      #f1f2f7;
+  --hz-border:         #e7e9f1;
+  --hz-border-strong:  #d8dbe7;
+
+  /* Text */
+  --hz-text:           #12142b;
+  --hz-text-muted:     #656a82;
+  --hz-text-faint:     #9599b0;
+
+  /* Brand */
+  --hz-purple:         #382c76;
+  --hz-purple-dark:    #241c4d;
+  --hz-purple-light:   #6957c4;
+  --hz-purple-tint:    #f2effc;
+  --hz-gold:           #f3b833;
+  --hz-gold-dark:      #d99f1e;
+
+  /* Elevation */
+  --hz-shadow-card:    0 1px 2px rgba(18,20,43,0.04);
+  --hz-shadow-drawer:  -4px 0 8px rgba(18,20,43,0.03), -16px 0 40px rgba(18,20,43,0.10);
+  --hz-shadow-focus:   0 0 0 3px rgba(105,87,196,0.18);
+
+  /* Geometry + motion */
+  --hz-radius:         10px;
+  --hz-radius-sm:      7px;
+  --hz-ease:           cubic-bezier(.22,1,.36,1);
+  --hz-duration:        260ms;
+
+  position: relative;
+  display: inline-flex;
+}
+
+@media (prefers-color-scheme: dark) {
+  .hz-notif-root {
+    --hz-bg:            #191c2c;
+    --hz-bg-soft:       #202336;
+    --hz-bg-subtle:     #262a40;
+    --hz-border:        #2c3049;
+    --hz-border-strong: #3a3f5c;
+    --hz-text:          #f1f2f8;
+    --hz-text-muted:    #a3a8c2;
+    --hz-text-faint:    #767c9c;
+    --hz-shadow-card:   0 1px 2px rgba(0,0,0,0.25);
+    --hz-shadow-drawer: -4px 0 8px rgba(0,0,0,0.2), -16px 0 40px rgba(0,0,0,0.45);
+  }
+}
+
+/* This class only exists on the element wrapping the portaled overlay +
+   drawer — it does NOT affect the inline bell button. */
+.hz-portal-layer { position: relative; }
+
+/* ── Bell trigger ─────────────────────────────────────────────────── */
+.hz-bell-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--gray-500, #64748b);
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease, transform .1s ease;
+}
+.hz-bell-btn:hover { background: rgba(56,44,118,0.07); color: var(--hz-purple); }
+.hz-bell-btn:active { transform: scale(0.94); }
+.hz-bell-btn:focus-visible { outline: none; box-shadow: var(--hz-shadow-focus); }
+
+.hz-bell-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #fff;
+  font-size: 9.5px;
+  font-weight: 800;
+  line-height: 16px;
+  text-align: center;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(220,38,38,0.5);
+}
+
+@keyframes hz-ring {
+  0%, 100% { transform: rotate(0deg); }
+  15% { transform: rotate(-13deg); } 30% { transform: rotate(10deg); }
+  45% { transform: rotate(-7deg); }  60% { transform: rotate(4deg); } 75% { transform: rotate(-2deg); }
+}
+.hz-bell-ring svg { animation: hz-ring .8s ease-in-out; transform-origin: top center; }
+
+/* ── Overlay — light scrim, app stays legible behind it ─────────────── */
+.hz-drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,17,32,0.24);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+  z-index: 1200;
+  opacity: 0;
+  animation: hz-overlay-in var(--hz-duration) var(--hz-ease) forwards;
+}
+@keyframes hz-overlay-in { to { opacity: 1; } }
+.hz-portal-closing .hz-drawer-overlay {
+  animation: hz-overlay-out var(--hz-duration) var(--hz-ease) forwards;
+}
+@keyframes hz-overlay-out { from { opacity: 1; } to { opacity: 0; } }
+
+/* ── Drawer shell ─────────────────────────────────────────────────── */
+.hz-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 440px;
+  max-width: 100vw;
+  background: var(--hz-bg);
+  color: var(--hz-text);
+  box-shadow: var(--hz-shadow-drawer);
+  z-index: 1201;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(0);
+  animation: hz-slide-in var(--hz-duration) var(--hz-ease);
+}
+@keyframes hz-slide-in { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@keyframes hz-slide-out { from { transform: translateX(0); } to { transform: translateX(100%); } }
+.hz-portal-closing .hz-drawer { animation: hz-slide-out var(--hz-duration) var(--hz-ease) forwards; }
+
+/* Tablet */
+@media (max-width: 1024px) and (min-width: 641px) {
+  .hz-drawer { width: 380px; }
+}
+/* Mobile — full screen, no wasted chrome */
+@media (max-width: 640px) {
+  .hz-drawer { width: 100vw; }
+  .hz-drawer-overlay { background: rgba(15,17,32,0.32); }
+}
+
+/* ── Header — sticky (outside the scroll area) ───────────────────── */
+.hz-drawer-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 16px 18px 12px;
+  background: linear-gradient(135deg, var(--hz-purple) 0%, var(--hz-purple-dark) 100%);
+  color: #fff;
+  flex-shrink: 0;
+}
+.hz-drawer-title-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.hz-drawer-heading h2 { margin: 0; font-size: 15.5px; font-weight: 800; letter-spacing: -0.01em; }
+.hz-drawer-subtitle { margin: 3px 0 0; font-size: 11.5px; color: rgba(255,255,255,0.7); }
+.hz-live-dot {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 9.5px; font-weight: 700; letter-spacing: .02em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 999px; background: rgba(255,255,255,0.14);
+}
+.hz-live-on { color: #86efac; }
+.hz-live-off { color: #fde68a; }
+
+.hz-icon-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.08);
+  color: #fff; cursor: pointer;
+  transition: background .15s ease, transform .1s ease;
+  flex-shrink: 0;
+}
+.hz-icon-btn:hover { background: rgba(255,255,255,0.2); }
+.hz-icon-btn:active { transform: scale(0.92); }
+.hz-icon-btn:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(255,255,255,0.35); }
+
+/* ── Toolbar — also sticky, sits between header and the scroll area ── */
+.hz-drawer-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--hz-border);
+  background: var(--hz-bg-soft);
+  flex-shrink: 0;
+}
+.hz-filter-pills { display: flex; gap: 5px; overflow-x: auto; scrollbar-width: none; padding-bottom: 1px; }
+.hz-filter-pills::-webkit-scrollbar { display: none; }
+.hz-pill {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--hz-border);
+  background: var(--hz-bg);
+  color: var(--hz-text-muted);
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.hz-pill:hover { border-color: var(--hz-purple-light); color: var(--hz-purple); }
+.hz-pill-active { background: var(--hz-purple); border-color: var(--hz-purple); color: #fff; }
+
+.hz-toolbar-actions { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.hz-text-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  border: none; background: none; color: var(--hz-text-muted);
+  font-size: 11.5px; font-weight: 600; cursor: pointer;
+  padding: 3px 5px; border-radius: 6px;
+  transition: color .15s ease, background .15s ease;
+}
+.hz-text-btn:hover { color: var(--hz-purple); background: rgba(56,44,118,0.08); }
+.hz-text-btn:focus-visible { outline: none; box-shadow: var(--hz-shadow-focus); }
+.hz-icon-btn-sm {
+  width: 26px; height: 26px;
+  background: var(--hz-bg); border-color: var(--hz-border); color: var(--hz-text-muted);
+}
+.hz-icon-btn-sm:hover { background: var(--hz-bg-subtle); color: var(--hz-purple); }
+.hz-icon-btn-sm:focus-visible { outline: none; box-shadow: var(--hz-shadow-focus); }
+
+/* ── Body — the ONLY scrolling region; drawer itself stays fixed ────── */
+.hz-drawer-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 8px 10px 20px;
+}
+.hz-group + .hz-group { margin-top: 12px; }
+.hz-group-label {
+  margin: 4px 6px 6px;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--hz-text-faint);
+  position: sticky;
+  top: 0;
+  background: var(--hz-bg);
+  padding-top: 4px;
+  z-index: 1;
+}
+.hz-card-list { display: flex; flex-direction: column; gap: 3px; }
+
+/* ── Notification row — dense, single-glance (Slack/Linear density) ── */
+.hz-card {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  border-radius: var(--hz-radius-sm);
+  background: var(--hz-bg);
+  border: 1px solid transparent;
+  padding: 8px 9px 8px 8px;
+  transition: background .12s ease, border-color .12s ease;
+}
+.hz-card:hover { background: var(--hz-bg-soft); border-color: var(--hz-border); }
+.hz-card-unread { background: var(--hz-purple-tint); }
+.hz-card-unread:hover { background: var(--hz-purple-tint); filter: brightness(0.98); }
+
+.hz-card-rail {
+  position: absolute;
+  left: 0; top: 8px; bottom: 8px;
+  width: 3px;
+  border-radius: 3px;
+}
+.hz-card-rail.hz-p-critical { background: #dc2626; }
+.hz-card-rail.hz-p-high     { background: #ea580c; }
+.hz-card-rail.hz-p-normal   { background: #2563eb; }
+.hz-card-rail.hz-p-low      { background: #16a34a; }
+
+.hz-cat-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px; border-radius: 7px;
+  flex-shrink: 0; margin-left: 4px; margin-top: 1px;
+}
+
+.hz-card-main { flex: 1; min-width: 0; }
+
+.hz-card-row1 { display: flex; align-items: baseline; gap: 8px; }
+.hz-card-title {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 650;
+  color: var(--hz-text);
+  line-height: 1.3;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.hz-time-ago { font-size: 10px; color: var(--hz-text-faint); flex-shrink: 0; }
+
+.hz-card-desc {
+  margin: 1px 0 0;
+  font-size: 11px;
+  color: var(--hz-text-muted);
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hz-card-row3 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: 4px;
+}
+.hz-card-tags { display: flex; align-items: center; gap: 4px; min-width: 0; overflow: hidden; }
+
+.hz-prio-chip {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 16px; height: 16px; border-radius: 5px; flex-shrink: 0;
+}
+.hz-type-chip {
+  padding: 1.5px 6px; border-radius: 999px; font-size: 9.5px; font-weight: 700;
+  background: var(--hz-bg-subtle); color: var(--hz-text-muted); border: 1px solid var(--hz-border);
+  white-space: nowrap; flex-shrink: 0;
+}
+.hz-tag {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 9.5px; font-weight: 700;
+  padding: 1.5px 6px; border-radius: 999px;
+  white-space: nowrap; flex-shrink: 0;
+}
+.hz-snoozed { color: var(--hz-gold-dark); background: #fff7e0; }
+.hz-remaining-overdue { color: #dc2626; background: #fef2f2; }
+.hz-remaining-today   { color: #d97706; background: #fffbeb; }
+.hz-remaining-soon    { color: #b45309; background: #fff7ed; }
+.hz-remaining-later   { color: #16a34a; background: #f0fdf4; }
+
+.hz-unread-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--hz-gold); flex-shrink: 0; margin-left: 2px;
+}
+
+.hz-card-actions { display: flex; align-items: center; gap: 2px; flex-shrink: 0; opacity: 0; transition: opacity .12s ease; }
+.hz-card:hover .hz-card-actions,
+.hz-card:focus-within .hz-card-actions { opacity: 1; }
+.hz-icon-action {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 6px;
+  border: 1px solid transparent; background: transparent;
+  color: var(--hz-text-muted); cursor: pointer;
+  transition: background .12s ease, color .12s ease;
+}
+.hz-icon-action:hover { background: var(--hz-purple); color: #fff; }
+.hz-icon-action:focus-visible { outline: none; opacity: 1; box-shadow: var(--hz-shadow-focus); }
+
+/* Always show actions on touch devices (no hover state available) */
+@media (hover: none) {
+  .hz-card-actions { opacity: 1; }
+}
+
+/* ── Priority color language (icon fill) ─────────────────────────── */
+.hz-p-critical { background: #fef2f2; color: #dc2626; }
+.hz-p-high     { background: #fff7ed; color: #ea580c; }
+.hz-p-normal   { background: #eff6ff; color: #2563eb; }
+.hz-p-low      { background: #f0fdf4; color: #16a34a; }
+
+@media (prefers-color-scheme: dark) {
+  .hz-p-critical { background: rgba(220,38,38,0.18); color: #f87171; }
+  .hz-p-high     { background: rgba(234,88,12,0.18); color: #fb923c; }
+  .hz-p-normal   { background: rgba(37,99,235,0.18); color: #60a5fa; }
+  .hz-p-low      { background: rgba(22,163,74,0.18); color: #4ade80; }
+  .hz-remaining-overdue { background: rgba(220,38,38,0.18); }
+  .hz-remaining-today   { background: rgba(217,119,6,0.18); }
+  .hz-remaining-soon    { background: rgba(180,83,9,0.18); }
+  .hz-remaining-later   { background: rgba(22,163,74,0.18); }
+  .hz-snoozed { background: rgba(217,159,30,0.18); }
+}
+
+/* ── Empty state ──────────────────────────────────────────────────── */
+.hz-empty-state {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 56px 24px; color: var(--hz-text-muted);
+}
+.hz-empty-icon {
+  width: 46px; height: 46px; border-radius: var(--hz-radius);
+  display: flex; align-items: center; justify-content: center;
+  background: var(--hz-purple-tint); color: var(--hz-purple-light);
+  margin-bottom: 12px;
+}
+.hz-empty-state p { margin: 0 0 4px; font-weight: 700; color: var(--hz-text); font-size: 13px; }
+.hz-empty-state span { font-size: 11.5px; line-height: 1.5; max-width: 230px; }
+
+/* ── Scrollbar polish ─────────────────────────────────────────────── */
+.hz-drawer-body::-webkit-scrollbar { width: 7px; }
+.hz-drawer-body::-webkit-scrollbar-thumb { background: var(--hz-border-strong); border-radius: 8px; }
+.hz-drawer-body::-webkit-scrollbar-track { background: transparent; }
+.hz-drawer-body { scrollbar-width: thin; scrollbar-color: var(--hz-border-strong) transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hz-drawer, .hz-drawer-overlay, .hz-bell-ring svg { animation: none !important; transition: none !important; }
+}

@@ -1,0 +1,13 @@
+/* styles in index.css */
+
+/* Service Billing KPI row (5 cards) — mirrors the breakpoints index.css
+   already defines for .kpi-row-6 / .kpi-row-4 so this row collapses the
+   same way on smaller screens. */
+.billing-kpi-row { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+@media (max-width: 1100px) {
+  .billing-kpi-row { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 720px) {
+  .billing-kpi-row { grid-template-columns: repeat(2, 1fr); }
+}
+

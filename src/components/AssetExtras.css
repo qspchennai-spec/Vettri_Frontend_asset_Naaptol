@@ -1,0 +1,151 @@
+.asset-extras {
+  margin-top: 4px;
+  border-top: 1px solid var(--border, #e2e8f0);
+  padding-top: 14px;
+}
+
+.asset-extras-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.asset-extras-tab {
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 7px 12px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: #475569;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+
+.asset-extras-tab:hover { background: #eef2ff; }
+.asset-extras-tab.active {
+  background: #0f172a;
+  color: #fff;
+  border-color: #0f172a;
+}
+
+.asset-extras-panel {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 14px;
+  animation: extras-fade .15s ease;
+}
+
+@keyframes extras-fade {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.asset-extras-loading, .asset-extras-empty {
+  font-size: 13px;
+  color: #94a3b8;
+  text-align: center;
+  padding: 12px 0;
+}
+
+/* QR panel */
+.asset-extras-qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.asset-extras-qr-img {
+  width: 180px;
+  height: 180px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  padding: 8px;
+}
+.asset-extras-qr-hint { font-size: 12px; color: #94a3b8; text-align: center; }
+
+/* Documents panel */
+.asset-extras-upload-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.asset-extras-upload-row select,
+.asset-extras-upload-row input[type="file"] {
+  font-size: 12.5px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+}
+.asset-extras-doc-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.asset-extras-doc-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 12.5px;
+}
+.asset-extras-doc-type {
+  background: #e0e7ff;
+  color: #3730a3;
+  font-weight: 600;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.asset-extras-doc-list a { color: #2563eb; text-decoration: none; flex: 1; }
+.asset-extras-doc-list a:hover { text-decoration: underline; }
+.asset-extras-doc-meta { color: #94a3b8; font-size: 11px; }
+.asset-extras-doc-del {
+  border: none;
+  background: transparent;
+  color: #ef4444;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+/* Maintenance panel */
+.asset-extras-maint-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  background: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+.asset-extras-maint-form select,
+.asset-extras-maint-form input {
+  font-size: 12.5px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  flex: 1 1 120px;
+}
+.asset-extras-maint-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.asset-extras-maint-list li {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px;
+}
+.asset-extras-maint-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.asset-extras-maint-type { font-weight: 600; font-size: 12.5px; color: #0f172a; }
+.asset-extras-maint-top select { font-size: 12px; border-radius: 6px; border: 1px solid #cbd5e1; padding: 3px 6px; }
+.asset-extras-maint-desc { font-size: 12.5px; color: #334155; margin-bottom: 4px; }
+.asset-extras-maint-meta { font-size: 11px; color: #94a3b8; }
+
+/* Full timeline panel */
+.asset-extras-full-timeline { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; max-height: 320px; overflow-y: auto; }
+.asset-extras-full-timeline li { display: flex; gap: 10px; align-items: flex-start; }
+.asset-extras-tl-icon { font-size: 15px; }
+.asset-extras-tl-desc { font-size: 12.5px; color: #0f172a; }
+.asset-extras-tl-meta { font-size: 11px; color: #94a3b8; margin-top: 2px; }

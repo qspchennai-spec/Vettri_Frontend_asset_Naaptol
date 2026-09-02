@@ -1,0 +1,332 @@
+/* ==========================================================================
+   Haoda Asset — Login (animated, video-style)
+   Warm gradient stage + walking character + staggered card reveal, echoing
+   the reference clip's choreography with an original flat-SVG character.
+   ========================================================================== */
+
+.al-stage {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background: linear-gradient(160deg, #ffb37a 0%, #f1874a 52%, #e8703a 100%);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif;
+  overflow: hidden;
+}
+
+.al-scene {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  max-width: 560px;
+}
+
+/* ---------- Character ---------- */
+
+.al-char {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  margin-right: -34px;
+  margin-bottom: 26px;
+  transform: translateX(-230px);
+  opacity: 0;
+}
+
+.al-stage.is-in .al-char {
+  animation: charWalkIn 1.4s cubic-bezier(.22,.7,.3,1) forwards;
+}
+
+@keyframes charWalkIn {
+  0%   { transform: translateX(-230px); opacity: 0; }
+  8%   { opacity: 1; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+.al-shadow { fill: rgba(90, 40, 10, 0.18); opacity: 0; }
+.al-stage.is-in .al-shadow {
+  animation: shadowIn 0.5s ease 0.9s forwards;
+}
+@keyframes shadowIn { to { opacity: 1; } }
+
+.al-torso { fill: #2b3a4a; }
+.al-head  { fill: #f2b58a; }
+.al-hair  { fill: #2a2119; }
+.al-arm rect { fill: #f2b58a; }
+.al-leg rect { fill: #33404f; }
+.al-bag { fill: #7a4a2c; }
+.al-bag-handle { fill: none; stroke: #7a4a2c; stroke-width: 4; }
+
+.al-arm-front { transform-origin: 92px 70px; }
+.al-arm-back  { transform-origin: 50px 70px; }
+.al-leg-front { transform-origin: 78px 130px; }
+.al-leg-back  { transform-origin: 62px 130px; }
+
+.al-stage.is-in .al-arm-front { animation: armFrontSwing 0.35s ease-in-out 0s 4 alternate forwards; }
+.al-stage.is-in .al-arm-back  { animation: armBackSwing  0.35s ease-in-out 0s 4 alternate forwards; }
+.al-stage.is-in .al-leg-front { animation: legFrontSwing 0.35s ease-in-out 0s 4 alternate forwards; }
+.al-stage.is-in .al-leg-back  { animation: legBackSwing  0.35s ease-in-out 0s 4 alternate forwards; }
+
+@keyframes armFrontSwing { from { transform: rotate(-16deg); } to { transform: rotate(16deg); } }
+@keyframes armBackSwing  { from { transform: rotate(16deg); }  to { transform: rotate(-16deg); } }
+@keyframes legFrontSwing { from { transform: rotate(18deg); }  to { transform: rotate(-18deg); } }
+@keyframes legBackSwing  { from { transform: rotate(-18deg); } to { transform: rotate(18deg); } }
+
+/* ---------- Sign-in card ---------- */
+
+.al-card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 320px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 32px 28px 28px;
+  box-shadow: 0 30px 60px -20px rgba(80, 30, 10, 0.45);
+  opacity: 0;
+  transform: translateY(36px) scale(0.97);
+}
+
+.al-stage.is-in .al-card {
+  animation: cardIn 0.55s cubic-bezier(.22,.8,.3,1) 0.95s forwards;
+}
+@keyframes cardIn {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.al-card .anim-1,
+.al-card .anim-2,
+.al-card .anim-3,
+.al-card .anim-4 {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.al-stage.is-in .al-card .anim-1 { animation: fieldIn 0.4s ease 1.15s forwards; }
+.al-stage.is-in .al-card .anim-2 { animation: fieldIn 0.4s ease 1.32s forwards; }
+.al-stage.is-in .al-card .anim-3 { animation: fieldIn 0.4s ease 1.47s forwards; }
+.al-stage.is-in .al-card .anim-4 { animation: fieldIn 0.4s ease 1.62s forwards; }
+
+@keyframes fieldIn { to { opacity: 1; transform: translateY(0); } }
+
+.al-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ee7f43;
+  margin: 0 0 6px;
+}
+
+.al-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1f2937;
+  margin: 0 0 22px;
+  letter-spacing: -0.3px;
+}
+
+.al-error {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: #fef1ee;
+  border: 1px solid #f6c9bb;
+  color: #b8462f;
+  font-size: 12.5px;
+  padding: 9px 11px;
+  border-radius: 8px;
+  margin-bottom: 14px;
+}
+
+.al-subtitle {
+  font-size: 13px;
+  color: #6b7280;
+  margin: -14px 0 16px;
+  line-height: 1.5;
+}
+
+.al-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  background: #f4f4f4;
+  padding: 4px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+}
+.al-tab {
+  padding: 8px;
+  border-radius: 7px;
+  border: none;
+  background: transparent;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #8b8b8b;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.al-tab.active {
+  background: #fff;
+  color: #e8703a;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+
+.al-otp-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+.al-otp-box {
+  width: 42px;
+  height: 50px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  border: 1.5px solid #ececec;
+  background: #fafafa;
+  border-radius: 10px;
+  outline: none;
+  color: #1f2937;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.al-otp-box:focus { border-color: #f1874a; background: #fff; }
+
+.al-otp-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #8b8b8b;
+  margin-bottom: 16px;
+}
+.al-otp-meta .is-low { color: #b8462f; font-weight: 600; }
+
+.al-link-btn {
+  background: none;
+  border: none;
+  color: #e8703a;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+}
+.al-link-btn:disabled { color: #c4c4c4; cursor: not-allowed; }
+
+.al-back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  margin-top: 12px;
+  background: none;
+  border: none;
+  color: #8b8b8b;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px;
+}
+.al-back-btn:hover { color: #4b5563; }
+
+.al-field {
+  position: relative;
+  margin-bottom: 14px;
+}
+
+.al-field input {
+  width: 100%;
+  height: 46px;
+  border: 1.5px solid #ececec;
+  background: #fafafa;
+  border-radius: 10px;
+  padding: 0 14px;
+  font-size: 14px;
+  color: #1f2937;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.al-field input:focus {
+  border-color: #f1874a;
+  background: #fff;
+}
+
+.al-field input::placeholder { color: #a3a3a3; }
+
+.al-field:nth-child(2) input { padding-right: 42px; }
+
+.al-eye {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  height: 34px;
+  width: 34px;
+  border: none;
+  background: transparent;
+  color: #a3a3a3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.al-eye:hover { color: #6b7280; background: #f3f4f6; }
+
+.al-submit {
+  width: 100%;
+  height: 46px;
+  margin-top: 6px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f1874a, #e8703a);
+  color: #fff;
+  font-size: 14.5px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  cursor: pointer;
+  box-shadow: 0 10px 22px -8px rgba(232, 112, 58, 0.6);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+.al-submit:hover:not(:disabled) {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+.al-submit:disabled { opacity: 0.75; cursor: not-allowed; }
+
+.al-spinner {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: #fff;
+  animation: alSpin 0.7s linear infinite;
+}
+@keyframes alSpin { to { transform: rotate(360deg); } }
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 620px) {
+  .al-scene { flex-direction: column; align-items: center; }
+  .al-char { margin-right: 0; margin-bottom: -18px; transform-origin: bottom center; }
+  .al-stage.is-in .al-char { animation-name: charWalkInMobile; }
+  @keyframes charWalkInMobile {
+    0%   { transform: translateY(40px) scale(0.9); opacity: 0; }
+    8%   { opacity: 1; }
+    100% { transform: translateY(0) scale(0.9); opacity: 1; }
+  }
+  .al-card { max-width: 340px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .al-stage * { animation: none !important; opacity: 1 !important; transform: none !important; }
+}

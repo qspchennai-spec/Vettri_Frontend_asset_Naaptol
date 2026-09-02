@@ -1,0 +1,11 @@
+{
+  "short_name": "Vettri Asset",
+  "name": "Vettri Asset — Enterprise IT Asset Management",
+  "icons": [
+    { "src": "vettri-pay-logo.png", "type": "image/png", "sizes": "1280x1280" }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#382c76",
+  "background_color": "#f8fafc"
+}

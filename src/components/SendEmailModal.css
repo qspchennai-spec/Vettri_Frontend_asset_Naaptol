@@ -1,0 +1,83 @@
+/* Most modal chrome (.modal-overlay, .modal-content, .modal-header,
+   .modal-title, .modal-body, .modal-footer, .modal-grid, .modal-info-group,
+   .modal-label, .modal-value) lives in index.css / AssignAssetModal.css.
+   This file only covers classes specific to the Send Email confirmation modal. */
+
+.send-email-modal {
+  max-width: 560px;
+}
+
+.send-email-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.send-email-icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  background: var(--primary-50);
+  border: 1px solid var(--primary-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.send-email-subtitle {
+  font-size: 12.5px;
+  color: var(--gray-500);
+  margin-top: 3px;
+}
+
+.send-email-section {
+  margin-bottom: 16px;
+}
+
+.send-email-section:last-child {
+  margin-bottom: 0;
+}
+
+.send-email-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--primary-600);
+  margin-bottom: 8px;
+}
+
+.send-email-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  color: var(--danger);
+  border-radius: var(--radius-sm);
+  padding: 10px 13px;
+  font-size: 12.5px;
+  margin-top: 4px;
+}
+
+.send-email-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.send-email-spinner {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  animation: spin 0.65s linear infinite;
+  display: inline-block;
+}
+
+@media (max-width: 480px) {
+  .send-email-modal { max-width: 92vw; }
+}

@@ -1,0 +1,452 @@
+/* ════════════════════════════════════════════════════════════════════
+   HaodaAsset — Enterprise Login Experience
+   Brand: Haoda Group (deep indigo/purple + gold). Logo usage on this page:
+     • Haoda Pay logo (wordmark)  → primary brand, top of the sign-in card
+     • Wallet mark (icon only)    → favicon, illustration, mobile header,
+                                     small brand touches, loading spinner
+     • Haoda Group logo (wordmark)→ footer attribution only
+   Every .login-* selector here is scoped to this page (see Login.js) and
+   safely supersedes any older rules of the same name.
+════════════════════════════════════════════════════════════════════ */
+
+.login-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 60% 40%;
+  grid-template-rows: 1fr auto;
+  background: var(--gray-50);
+}
+
+/* ── Left panel: branding, illustration & features (60%) ─────────────── */
+
+.login-left {
+  grid-column: 1;
+  grid-row: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 56px 60px 44px;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(243,184,51,0.16) 0%, transparent 42%),
+    radial-gradient(circle at 88% 82%, rgba(93,79,158,0.45) 0%, transparent 52%),
+    linear-gradient(155deg, #1c1540 0%, #241c4d 45%, #382c76 100%);
+  color: #fff;
+}
+
+.login-left-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: radial-gradient(circle at 25% 15%, #000 0%, transparent 72%);
+  pointer-events: none;
+}
+
+.login-left-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(8px);
+  pointer-events: none;
+  opacity: 0.6;
+}
+.login-left-orb-a {
+  width: 420px; height: 420px;
+  top: -140px; right: -120px;
+  background: radial-gradient(circle, rgba(243,184,51,0.22) 0%, transparent 70%);
+  animation: loginDrift 24s ease-in-out infinite;
+}
+.login-left-orb-b {
+  width: 340px; height: 340px;
+  bottom: -110px; left: -90px;
+  background: radial-gradient(circle, rgba(93,79,158,0.5) 0%, transparent 70%);
+  animation: loginDrift 30s ease-in-out infinite reverse;
+}
+@keyframes loginDrift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(24px, -18px) scale(1.06); }
+}
+
+.login-left-top { position: relative; z-index: 1; max-width: 560px; }
+
+.login-hero-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(243,184,51,0.12);
+  border: 1px solid rgba(243,184,51,0.32);
+  padding: 6px 14px; border-radius: 999px;
+  font-size: 11.5px; font-weight: 600; color: var(--brand-gold-light);
+  margin-bottom: 22px; backdrop-filter: blur(8px);
+}
+.login-hero-tag-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--brand-gold);
+  box-shadow: 0 0 8px var(--brand-gold); animation: loginPulse 2s ease infinite;
+}
+@keyframes loginPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+.login-hero-title {
+  font-size: 38px; font-weight: 800; color: #fff; line-height: 1.16;
+  letter-spacing: -1.4px; margin-bottom: 14px;
+}
+.login-hero-title span {
+  background: linear-gradient(90deg, var(--brand-gold-light), var(--brand-gold));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.login-hero-desc { font-size: 14px; color: rgba(226,232,240,0.68); line-height: 1.7; max-width: 400px; margin-bottom: 26px; }
+
+.login-features { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 20px; }
+.login-feature {
+  display: flex; align-items: center; gap: 9px;
+  animation: loginFeatureIn 0.5s ease both;
+}
+@keyframes loginFeatureIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.login-feature-check {
+  width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0;
+  background: var(--brand-gold); color: #241c4d;
+  display: flex; align-items: center; justify-content: center;
+}
+.login-feature-icon {
+  width: 26px; height: 26px; border-radius: 8px; flex-shrink: 0;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  display: flex; align-items: center; justify-content: center;
+  color: #d9d3f0;
+}
+.login-feature-text { font-size: 12.5px; font-weight: 600; color: rgba(226,232,240,0.9); }
+
+/* ── Illustration — built from the wallet mark, never the wordmarks ──── */
+
+.login-illustration {
+  position: relative; z-index: 1;
+  flex: 1;
+  min-height: 220px;
+  display: flex; align-items: center; justify-content: center;
+}
+.login-illustration-glow {
+  position: absolute; inset: 8% 14%;
+  background: radial-gradient(circle, rgba(243,184,51,0.14) 0%, transparent 68%);
+  pointer-events: none;
+}
+
+.login-illustration-card {
+  position: absolute;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 16px;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 20px 48px rgba(10,6,32,0.35);
+}
+
+.login-illustration-card--main {
+  position: relative;
+  width: min(400px, 88%);
+  padding: 20px 22px 24px;
+  animation: licFloat 7s ease-in-out infinite;
+}
+.lic-row { display: flex; gap: 6px; margin-bottom: 16px; }
+.lic-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.22); }
+.lic-bar { height: 9px; border-radius: 5px; background: rgba(255,255,255,0.16); margin-bottom: 9px; }
+.lic-bar--w70 { width: 70%; }
+.lic-bar--w40 { width: 40%; background: rgba(243,184,51,0.35); }
+.lic-stats { margin-top: 18px; height: 74px; }
+.lic-stat { display: flex; align-items: flex-end; gap: 10px; height: 100%; }
+.lic-stat-bar {
+  flex: 1; border-radius: 6px 6px 2px 2px;
+  background: linear-gradient(180deg, var(--brand-gold-light), var(--brand-gold));
+  opacity: 0.9;
+}
+
+.login-illustration-card--badge {
+  right: 4%; top: 6%;
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 16px;
+  animation: licFloat 6s ease-in-out infinite 0.4s;
+}
+.lic-badge-icon {
+  width: 32px; height: 32px; border-radius: 9px; flex-shrink: 0;
+  background: #fff; padding: 5px; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+.lic-badge-icon img { width: 100%; height: 100%; object-fit: contain; }
+.lic-badge-title { font-size: 12px; font-weight: 700; color: #fff; }
+.lic-badge-sub { font-size: 10.5px; color: rgba(226,232,240,0.6); margin-top: 1px; }
+
+.login-illustration-card--float {
+  left: 2%; bottom: 8%;
+  display: flex; align-items: center; gap: 7px;
+  padding: 9px 14px;
+  font-size: 11.5px; font-weight: 700; color: var(--brand-gold-light);
+  animation: licFloat 8s ease-in-out infinite 0.9s;
+}
+
+@keyframes licFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+/* ── Right panel: sign-in card (40%) ──────────────────────────────────── */
+
+.login-right {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--gray-50);
+  padding: 48px 52px;
+}
+
+.login-box {
+  width: 100%; max-width: 400px;
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  padding: 34px 34px 28px;
+}
+
+.login-box.fade-in { animation: loginCardIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes loginCardIn {
+  from { opacity: 0; transform: translateY(14px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Primary branding — Haoda Pay wordmark logo */
+.login-box-brand { display: flex; justify-content: center; margin-bottom: 22px; }
+.login-primary-logo { height: 34px; width: auto; object-fit: contain; }
+
+/* Mobile-only compact brand row — wallet mark, never the full wordmark */
+.login-box-brand-mobile { display: none; align-items: center; gap: 10px; margin-bottom: 18px; }
+.login-box-brand-mobile span { font-size: 15px; font-weight: 800; color: var(--gray-900); }
+.login-brand-icon {
+  width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+  background: #fff; border: 1px solid var(--gray-200);
+  box-shadow: var(--shadow-sm);
+  display: flex; align-items: center; justify-content: center;
+  padding: 6px; overflow: hidden;
+}
+.login-brand-icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.login-brand-icon--sm { width: 38px; height: 38px; border-radius: 10px; padding: 5px; }
+
+.login-box-header { margin-bottom: 22px; text-align: center; }
+.login-box-title  { font-size: 22px; font-weight: 800; color: var(--gray-900); letter-spacing: -0.5px; }
+.login-box-sub    { font-size: 13px; color: var(--gray-500); margin-top: 5px; line-height: 1.5; }
+
+.login-tabs {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4px;
+  margin-bottom: 22px; background: var(--gray-100);
+  padding: 4px; border-radius: 11px;
+}
+.login-tab {
+  padding: 9px; border-radius: 8px; border: none; background: transparent;
+  font-size: 12.5px; font-weight: 700; color: var(--gray-500);
+  cursor: pointer; transition: color 0.15s ease;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.login-tab.active {
+  background: #fff; color: var(--brand-purple);
+  box-shadow: var(--shadow-sm);
+  animation: loginTabPop 0.18s ease both;
+}
+@keyframes loginTabPop { from { transform: scale(0.94); } to { transform: scale(1); } }
+
+/* ── Sign-in method toggle (Password / Mobile OTP) ─────────────────── */
+.login-method-toggle {
+  display: flex; gap: 6px; margin-bottom: 16px;
+}
+.login-method-btn {
+  flex: 1; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--gray-200);
+  background: #fff; font-size: 12px; font-weight: 700; color: var(--gray-500);
+  cursor: pointer; transition: 0.15s ease;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.login-method-btn:hover { border-color: var(--gray-300); color: var(--gray-700); }
+.login-method-btn.active {
+  border-color: var(--brand-purple-light); color: var(--brand-purple); background: rgba(93,79,158,0.06);
+}
+
+/* ── "or continue with" divider + Google button slot ───────────────── */
+.login-divider {
+  display: flex; align-items: center; gap: 12px; margin: 18px 0 14px; color: var(--gray-400);
+  font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+}
+.login-divider::before, .login-divider::after {
+  content: ""; flex: 1; height: 1px; background: var(--gray-200);
+}
+/* Google's rendered <div> button fills this slot and is centered — GSI
+   controls the button's own internal styling per Google brand guidelines,
+   so this wrapper only handles layout/centering, not the button's look. */
+.login-google-btn-slot { display: flex; justify-content: center; min-height: 40px; }
+
+.login-form  { display: flex; flex-direction: column; gap: 16px; }
+.login-field { display: flex; flex-direction: column; gap: 6px; }
+.login-label { font-size: 12.5px; font-weight: 700; color: var(--gray-700); }
+.login-label-row { display: flex; align-items: center; justify-content: space-between; }
+
+.login-input {
+  width: 100%; height: 44px; border: 1.5px solid var(--gray-200);
+  border-radius: 10px; padding: 0 14px; font-size: 14px; color: var(--gray-800);
+  background: #fff; font-family: var(--font);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  outline: none;
+}
+.login-input:hover  { border-color: var(--gray-300); }
+.login-input:focus  { border-color: var(--brand-purple-light); box-shadow: 0 0 0 3.5px rgba(93,79,158,0.16); }
+.login-input::placeholder { color: var(--gray-400); }
+
+.login-input-shell { position: relative; display: flex; align-items: center; }
+.login-input--pw { padding-right: 42px; }
+.login-pw-toggle {
+  position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+  width: 32px; height: 32px; border-radius: 8px; border: none; background: transparent;
+  color: var(--gray-400); display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: color 0.15s ease, background 0.15s ease;
+}
+.login-pw-toggle:hover { color: var(--brand-purple); background: var(--gray-100); }
+
+.login-forgot-link {
+  background: none; border: none; padding: 0; cursor: pointer;
+  font-size: 12px; font-weight: 700; color: var(--brand-purple);
+  transition: color 0.15s ease;
+}
+.login-forgot-link:hover { color: var(--brand-purple-dark); text-decoration: underline; }
+
+.login-remember {
+  display: flex; align-items: center; gap: 9px; cursor: pointer;
+  font-size: 12.5px; font-weight: 600; color: var(--gray-600);
+  user-select: none; margin-top: -4px;
+}
+.login-remember input { position: absolute; opacity: 0; width: 0; height: 0; }
+.login-remember-box {
+  width: 17px; height: 17px; border-radius: 5px; flex-shrink: 0;
+  border: 1.5px solid var(--gray-300); background: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: all 0.15s ease; position: relative;
+}
+.login-remember-box::after {
+  content: ""; width: 9px; height: 5px;
+  border-left: 2px solid #fff; border-bottom: 2px solid #fff;
+  transform: rotate(-45deg) translateY(-1px); opacity: 0; transition: opacity 0.1s ease;
+}
+.login-remember input:checked + .login-remember-box {
+  background: var(--brand-purple); border-color: var(--brand-purple);
+}
+.login-remember input:checked + .login-remember-box::after { opacity: 1; }
+.login-remember input:focus-visible + .login-remember-box {
+  outline: 2px solid var(--brand-purple-light); outline-offset: 2px;
+}
+
+.login-btn {
+  height: 46px; background: linear-gradient(135deg, var(--brand-purple), var(--brand-purple-dark));
+  color: #fff; border: none; border-radius: 11px; font-size: 14.5px; font-weight: 700;
+  cursor: pointer; letter-spacing: -0.2px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  box-shadow: 0 6px 18px rgba(56,44,118,0.32);
+  transition: transform 0.13s ease, box-shadow 0.13s ease, background 0.13s ease;
+  font-family: var(--font);
+}
+.login-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--brand-purple-dark), var(--brand-purple-dark));
+  box-shadow: 0 9px 24px rgba(56,44,118,0.4);
+  transform: translateY(-1px);
+}
+.login-btn:active:not(:disabled) { transform: translateY(0); }
+.login-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+.login-btn:focus-visible { outline: 2px solid var(--brand-purple-dark); outline-offset: 2px; }
+
+/* Loading animation — spinning ring around the wallet mark */
+.wallet-spinner {
+  position: relative; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+}
+.wallet-spinner::before {
+  content: ""; position: absolute; inset: -3px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.35); border-top-color: #fff;
+  animation: loginSpin 0.8s linear infinite;
+}
+.wallet-spinner img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
+@keyframes loginSpin { to { transform: rotate(360deg); } }
+
+.login-error {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--danger-bg); border: 1px solid var(--danger-border);
+  padding: 10px 13px; border-radius: 9px; font-size: 12.5px; color: var(--danger);
+  animation: loginShake 0.3s ease;
+}
+@keyframes loginShake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-4px); }
+  75%      { transform: translateX(4px); }
+}
+
+.login-2fa-note {
+  margin-top: 18px; display: flex; align-items: center; justify-content: center;
+  gap: 6px; font-size: 11.5px; color: var(--gray-400); font-weight: 500;
+}
+
+.login-secure-msg {
+  text-align: center; font-size: 11.5px; color: var(--gray-400); font-weight: 500;
+  margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--gray-100);
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+
+/* ── Footer — full width, Haoda Group attribution only ────────────────── */
+
+.login-footer {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  padding: 16px 52px;
+  background: #fff;
+  border-top: 1px solid var(--gray-200);
+}
+.login-footer-brand { display: flex; align-items: center; gap: 9px; }
+.login-footer-brand span { font-size: 11.5px; font-weight: 600; color: var(--gray-400); }
+.login-footer-logo { height: 18px; width: auto; object-fit: contain; }
+.login-footer-meta {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 11.5px; color: var(--gray-400); font-weight: 500;
+}
+.login-footer-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--gray-300); }
+
+/* ── Focus visibility everywhere on this page ─────────────────────────── */
+.login-page button:focus-visible,
+.login-page input:focus-visible { outline: 2px solid var(--brand-purple-light); outline-offset: 2px; }
+.login-page .login-input:focus-visible { outline: none; } /* box-shadow ring already covers this */
+
+/* ── Reduced motion ────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .login-left-orb, .login-hero-tag-dot, .login-box.fade-in, .login-feature,
+  .wallet-spinner::before, .login-error, .login-tab.active,
+  .login-illustration-card--main, .login-illustration-card--badge, .login-illustration-card--float {
+    animation: none !important;
+  }
+}
+
+/* ── Responsive ────────────────────────────────────────────────────────── */
+
+@media (max-width: 1180px) {
+  .login-hero-title { font-size: 32px; }
+  .login-left { padding: 48px 44px 36px; }
+  .login-features { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 900px) {
+  .login-page { grid-template-columns: 1fr; grid-template-rows: auto auto; }
+  .login-left { display: none; }
+  .login-right { grid-column: 1; padding: 32px 20px; background: var(--gray-50); min-height: calc(100vh - 64px); }
+  .login-box-brand-mobile { display: flex; }
+  .login-box-brand { display: none; }
+  .login-box { max-width: 420px; box-shadow: var(--shadow-md); }
+  .login-footer { grid-column: 1; flex-direction: column; text-align: center; padding: 18px 20px; }
+}
+
+@media (max-width: 420px) {
+  .login-box { padding: 28px 22px 24px; border-radius: var(--radius-lg); }
+  .login-box-title { font-size: 20px; }
+}
