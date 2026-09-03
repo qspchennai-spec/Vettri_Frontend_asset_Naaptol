@@ -25,10 +25,11 @@ export const COMPANY_SUBTITLE = process.env.REACT_APP_COMPANY_SUBTITLE || "IT As
 
 // Naaptol does not have the AWS/infrastructure required by these features.
 // Other client deployments remain enabled by setting REACT_APP_CLIENT.
-export const CLIENT_ID = (process.env.REACT_APP_CLIENT || "naaptol").toLowerCase();
+export const CLIENT_ID = (process.env.REACT_APP_CLIENT || "naaptol").trim().toLowerCase();
+const IS_NAAP_TOL_CLIENT = CLIENT_ID.includes("naaptol") || API_BASE.toLowerCase().includes("naaptol");
 export const CLIENT_FEATURES = {
-  serviceBilling: CLIENT_ID !== "naaptol",
-  pulse: CLIENT_ID !== "naaptol",
+  serviceBilling: !IS_NAAP_TOL_CLIENT,
+  pulse: !IS_NAAP_TOL_CLIENT,
 };
 export const VETTRI_CONTACT_EMAIL = process.env.REACT_APP_VETTRI_CONTACT_EMAIL || "support@vettri.com";
 
