@@ -6,7 +6,7 @@ import { useAuth } from "../context/AuthContext";
 import { useNotifications } from "../context/NotificationContext";
 import "./Sidebar.css";
 
-import { API_BASE as API, COMPANY_NAME, COMPANY_DISPLAY, COMPANY_SUBTITLE, ICON_PATH } from "../config";
+import { API_BASE as API, COMPANY_NAME, COMPANY_DISPLAY, COMPANY_SUBTITLE } from "../config";
 
 /* ── SVG Icon Set ─────────────────────────────────────────────── */
 const Ico = {
@@ -127,7 +127,7 @@ export default function Sidebar({ open = false, onClose, collapsed = false, onTo
     }}
   >
     <img
-      src={ICON_PATH}
+      src="/vettri-pay-logo.png"
       alt={COMPANY_NAME}
       style={{
         width: "100%",
