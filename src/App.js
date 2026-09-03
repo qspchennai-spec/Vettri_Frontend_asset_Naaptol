@@ -47,7 +47,7 @@ function App() {
               <Route path="/dashboard"     element={<AdminRoute><Dashboard /></AdminRoute>} />
               <Route path="/assets"        element={<AdminRoute><Assets /></AdminRoute>} />
               <Route path="/assets/:assetId" element={<AdminRoute><AssetDetails /></AdminRoute>} />
-              <Route path="/filecenter"    element={<AdminRoute><FileCenter /></AdminRoute>} />
+              <Route path="/filecenter"    element={<AdminRoute><FeatureRoute feature="File Center" enabled={CLIENT_FEATURES.fileCenter}><FileCenter /></FeatureRoute></AdminRoute>} />
               <Route path="/employees"     element={<AdminRoute><Employees /></AdminRoute>} />
               <Route path="/asset-requests" element={<AdminRoute><AdminAssetRequests /></AdminRoute>} />
               <Route path="/network-credentials" element={<AdminRoute><NetworkCredentials /></AdminRoute>} />

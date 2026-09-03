@@ -116,6 +116,7 @@ export default function Sidebar({ open = false, onClose, collapsed = false, onTo
   const handleLogout  = () => { logout(); navigate("/"); };
   const restrictedFeatures = {
     "/service-billing": { name: "Service Billing", enabled: CLIENT_FEATURES.serviceBilling },
+    "/filecenter": { name: "File Center", enabled: CLIENT_FEATURES.fileCenter },
     "/pulse": { name: `${COMPANY_NAME} Pulse`, enabled: CLIENT_FEATURES.pulse },
   };
 
