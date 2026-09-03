@@ -23,6 +23,15 @@ export const COMPANY_NAME = process.env.REACT_APP_COMPANY_NAME || "Vettri";
 export const COMPANY_DISPLAY = process.env.REACT_APP_COMPANY_DISPLAY || "Vettri Asset";
 export const COMPANY_SUBTITLE = process.env.REACT_APP_COMPANY_SUBTITLE || "IT Asset Management";
 
+// Naaptol does not have the AWS/infrastructure required by these features.
+// Other client deployments remain enabled by setting REACT_APP_CLIENT.
+export const CLIENT_ID = (process.env.REACT_APP_CLIENT || "naaptol").toLowerCase();
+export const CLIENT_FEATURES = {
+  serviceBilling: CLIENT_ID !== "naaptol",
+  pulse: CLIENT_ID !== "naaptol",
+};
+export const VETTRI_CONTACT_EMAIL = process.env.REACT_APP_VETTRI_CONTACT_EMAIL || "support@vettri.com";
+
 // Public asset paths can still be overridden per deployment.
 export const PAY_LOGO_PATH = process.env.REACT_APP_PAY_LOGO_PATH || "/vettri-pay-logo.png";
 export const WALLET_ICON_PATH = process.env.REACT_APP_WALLET_ICON_PATH || "/vettri-pay-logo.png";

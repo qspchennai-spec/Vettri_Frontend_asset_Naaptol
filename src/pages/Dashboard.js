@@ -10,7 +10,7 @@ import { useNotifications } from "../context/NotificationContext";
 import { ClipboardList, Laptop, Receipt, ShieldAlert, Info, ArrowUpRight, CheckCircle2 } from "lucide-react";
 import "./Dashboard.css";
 
-import { API_BASE as API } from "../config";
+import { API_BASE as API, CLIENT_FEATURES } from "../config";
 
 /* ── SVG Icons ─────────────────────────────────────────────────── */
 const IconBox      = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>;
@@ -227,9 +227,11 @@ export default function Dashboard() {
 
     // Service Billing KPIs load independently — a failure here shouldn't
     // block the rest of the dashboard from rendering.
-    axios.get(`${API}/api/admin/service-billing/dashboard`)
-      .then((r) => setBilling(r.data))
-      .catch(() => { /* card simply shows placeholders if this fails */ });
+    if (CLIENT_FEATURES.serviceBilling) {
+      axios.get(`${API}/api/admin/service-billing/dashboard`)
+        .then((r) => setBilling(r.data))
+        .catch(() => { /* card simply shows placeholders if this fails */ });
+    }
 
     // Warranty & Maintenance widgets — a failure here shouldn't block the rest of the dashboard.
     axios.get(`${API}/api/admin/reports/analytics`)

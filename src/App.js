@@ -26,6 +26,12 @@ import { EmployeeAssets, EmployeeProfile, EmployeeRequest, EmployeePassword } fr
 import Maintenance from "./pages/Maintenance";
 import HaodaPulse from "./pages/HaodaPulse";
 import AiSearch from "./pages/AiSearch";
+import UnavailableFeature from "./components/UnavailableFeature";
+import { CLIENT_FEATURES } from "./config";
+
+function FeatureRoute({ feature, enabled, children }) {
+  return enabled ? children : <UnavailableFeature featureName={feature} />;
+}
 
 function App() {
   return (
@@ -45,9 +51,9 @@ function App() {
               <Route path="/employees"     element={<AdminRoute><Employees /></AdminRoute>} />
               <Route path="/asset-requests" element={<AdminRoute><AdminAssetRequests /></AdminRoute>} />
               <Route path="/network-credentials" element={<AdminRoute><NetworkCredentials /></AdminRoute>} />
-              <Route path="/service-billing" element={<AdminRoute><ServiceBilling /></AdminRoute>} />
+              <Route path="/service-billing" element={<AdminRoute><FeatureRoute feature="Service Billing" enabled={CLIENT_FEATURES.serviceBilling}><ServiceBilling /></FeatureRoute></AdminRoute>} />
               <Route path="/maintenance"    element={<AdminRoute><Maintenance /></AdminRoute>} />
-              <Route path="/pulse"         element={<AdminRoute><HaodaPulse /></AdminRoute>} />
+              <Route path="/pulse"         element={<AdminRoute><FeatureRoute feature="Vettri Pulse" enabled={CLIENT_FEATURES.pulse}><HaodaPulse /></FeatureRoute></AdminRoute>} />
               <Route path="/ai-search"     element={<AdminRoute><AiSearch /></AdminRoute>} />
               <Route path="/reports"       element={<AdminRoute><Reports /></AdminRoute>} />
               <Route path="/settings"      element={<AdminRoute><Settings /></AdminRoute>} />

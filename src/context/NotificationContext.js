@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import axios from "axios";
 import { useAuth } from "./AuthContext";
-import { API_BASE as API } from "../config";
+import { API_BASE as API, CLIENT_FEATURES } from "../config";
 const NotificationContext = createContext(null);
 const POLL_MS = 15_000; // poll every 15 s
 const SEEN_KEY = "iam_seen_requests"; // localStorage key for read IDs
@@ -101,7 +101,7 @@ export function NotificationProvider({ children }) {
   // ── Pulse (new Enterprise Notification Center) ──────────────────────────
 
   const fetchPulseNotifications = useCallback(async () => {
-    if (!isAdmin) return;
+    if (!isAdmin || !CLIENT_FEATURES.pulse) return;
     try {
       const { data } = await axios.get(`${API}/api/admin/pulse/notifications`);
       setPulseNotifications(data);
@@ -112,6 +112,7 @@ export function NotificationProvider({ children }) {
   }, [isAdmin]);
 
   const markPulseRead = useCallback(async (id) => {
+    if (!CLIENT_FEATURES.pulse) return;
     try {
       await axios.put(`${API}/api/admin/pulse/notifications/${id}/read`);
       setPulseNotifications((ns) => ns.map((n) => (n.notificationId === id ? { ...n, read: true } : n)));
@@ -120,6 +121,7 @@ export function NotificationProvider({ children }) {
   }, []);
 
   const markAllPulseRead = useCallback(async () => {
+    if (!CLIENT_FEATURES.pulse) return;
     try {
       await axios.put(`${API}/api/admin/pulse/notifications/mark-all-read`);
       setPulseNotifications((ns) => ns.map((n) => ({ ...n, read: true })));
@@ -128,6 +130,7 @@ export function NotificationProvider({ children }) {
   }, []);
 
   const snoozePulse = useCallback(async (id, minutes = 60) => {
+    if (!CLIENT_FEATURES.pulse) return;
     try {
       const { data } = await axios.put(`${API}/api/admin/pulse/notifications/${id}/snooze`, { minutes });
       setPulseNotifications((ns) => ns.map((n) => (n.notificationId === id ? data : n)));
@@ -136,6 +139,7 @@ export function NotificationProvider({ children }) {
   }, []);
 
   const completePulse = useCallback(async (id) => {
+    if (!CLIENT_FEATURES.pulse) return;
     try {
       const { data } = await axios.put(`${API}/api/admin/pulse/notifications/${id}/complete`);
       setPulseNotifications((ns) => ns.map((n) => (n.notificationId === id ? data : n)));
@@ -144,6 +148,7 @@ export function NotificationProvider({ children }) {
   }, []);
 
   const clearCompletedPulse = useCallback(async () => {
+    if (!CLIENT_FEATURES.pulse) return;
     try {
       await axios.delete(`${API}/api/admin/pulse/notifications/clear-completed`);
       setPulseNotifications((ns) => ns.filter((n) => n.status !== "Actioned"));
@@ -151,6 +156,7 @@ export function NotificationProvider({ children }) {
   }, []);
 
   const completeTask = useCallback(async (taskId) => {
+    if (!CLIENT_FEATURES.pulse) return;
     try {
       await axios.put(`${API}/api/admin/pulse/tasks/${taskId}/complete`);
       fetchPulseNotifications();
@@ -161,7 +167,7 @@ export function NotificationProvider({ children }) {
 
   // Real-time stream, falls back to polling automatically if it can't connect.
   useEffect(() => {
-    if (!isAdmin) return;
+    if (!isAdmin || !CLIENT_FEATURES.pulse) return;
     const token = sessionStorage.getItem(TOKEN_KEY);
     if (!token || typeof window === "undefined" || typeof window.EventSource === "undefined") return;
 
@@ -195,10 +201,12 @@ export function NotificationProvider({ children }) {
     }
     fetchRequests();
     fetchSystemNotifications();
-    fetchPulseNotifications();
+    if (CLIENT_FEATURES.pulse) fetchPulseNotifications();
     timerRef.current = setInterval(() => { fetchRequests(); fetchSystemNotifications(); }, POLL_MS);
-    // Pulse notifications poll too (in addition to SSE) as a resilience net.
-    pulseTimerRef.current = setInterval(() => { fetchPulseNotifications(); }, POLL_MS);
+    if (CLIENT_FEATURES.pulse) {
+      // Pulse notifications poll too (in addition to SSE) as a resilience net.
+      pulseTimerRef.current = setInterval(() => { fetchPulseNotifications(); }, POLL_MS);
+    }
     return () => { clearInterval(timerRef.current); clearInterval(pulseTimerRef.current); };
   }, [isAdmin, fetchRequests, fetchSystemNotifications, fetchPulseNotifications]);
 

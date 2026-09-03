@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ShieldCheck } from "lucide-react";
+import { LockKeyhole, ShieldCheck } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useNotifications } from "../context/NotificationContext";
+import { CLIENT_FEATURES } from "../config";
+import UnavailableFeature from "./UnavailableFeature";
 import "./Sidebar.css";
 
 import { API_BASE as API, COMPANY_NAME, COMPANY_DISPLAY, COMPANY_SUBTITLE } from "../config";
@@ -90,6 +92,7 @@ export default function Sidebar({ open = false, onClose, collapsed = false, onTo
   const requestsUnread = notifCtx?.unread ?? 0; // asset-request notifications only, not the combined bell total
 
   const [myFilesUnread, setMyFilesUnread] = useState(0);
+  const [unavailableFeature, setUnavailableFeature] = useState(null);
   useEffect(() => {
     if (user?.role === "admin") return;
     let cancelled = false;
@@ -111,7 +114,20 @@ export default function Sidebar({ open = false, onClose, collapsed = false, onTo
     : EMP_NAV;
 
   const handleLogout  = () => { logout(); navigate("/"); };
-  const handleNavClick = () => { if (onClose) onClose(); };
+  const restrictedFeatures = {
+    "/service-billing": { name: "Service Billing", enabled: CLIENT_FEATURES.serviceBilling },
+    "/pulse": { name: `${COMPANY_NAME} Pulse`, enabled: CLIENT_FEATURES.pulse },
+  };
+
+  const handleNavClick = (event, item) => {
+    const feature = restrictedFeatures[item.to];
+    if (feature && !feature.enabled) {
+      event.preventDefault();
+      setUnavailableFeature(feature.name);
+      return;
+    }
+    if (onClose) onClose();
+  };
 
   const sections = [...new Set(nav.map((n) => n.section))];
 
@@ -175,7 +191,7 @@ export default function Sidebar({ open = false, onClose, collapsed = false, onTo
                     key={item.to}
                     to={item.to}
                     className={`sidebar-item ${active ? "active" : ""}`}
-                    onClick={handleNavClick}
+                    onClick={(event) => handleNavClick(event, item)}
                     aria-current={active ? "page" : undefined}
                     aria-label={collapsed ? item.label : undefined}
                     data-tooltip={collapsed ? item.label : undefined}
@@ -186,6 +202,9 @@ export default function Sidebar({ open = false, onClose, collapsed = false, onTo
                         : Ico[item.icon]}
                     </span>
                     {!collapsed && item.label}
+                    {restrictedFeatures[item.to] && !restrictedFeatures[item.to].enabled && (
+                      <LockKeyhole size={13} className="sidebar-item-lock" aria-label="Feature unavailable" />
+                    )}
                     {item.to === "/asset-requests" && requestsUnread > 0 && (
                       <span className="sidebar-item-badge">{collapsed ? "" : (requestsUnread > 9 ? "9+" : requestsUnread)}</span>
                     )}
@@ -218,6 +237,9 @@ export default function Sidebar({ open = false, onClose, collapsed = false, onTo
       </aside>
 
       <div className={`sidebar-scrim ${open ? "visible" : ""}`} onClick={onClose} aria-hidden="true" />
+      {unavailableFeature && (
+        <UnavailableFeature featureName={unavailableFeature} onClose={() => setUnavailableFeature(null)} />
+      )}
     </>
   );
 }
